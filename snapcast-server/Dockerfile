@@ -1,28 +1,35 @@
-ARG BUILD_FROM=ghcr.io/home-assistant/amd64-base:3.19
-FROM ${BUILD_FROM}
+ARG BUILD_FROM
+FROM $BUILD_FROM
 
 # Install required packages
-RUN \
-    apk add --no-cache \
-        alsa-lib \
-        avahi \
-        avahi-compat-libdns_sd \
-        dbus \
-        pulseaudio-alsa \
-        snapcast \
-        librespot=0.4.3-r0
+RUN apk add --no-cache \
+    alsa-lib \
+    avahi \
+    avahi-compat-libdns_sd \
+    dbus \
+    pulseaudio-alsa \
+    snapcast \
+    cargo \
+    rust \
+    build-base \
+    protobuf-dev \
+    alsa-lib-dev \
+    python3
+
+# Build and install librespot
+RUN cargo install librespot --version 0.4.2 --no-default-features --features pulseaudio-backend,alsa-backend
 
 # Copy root filesystem
 COPY rootfs /
 
-# Labels
 LABEL \
     io.hass.name="Snapcast Server" \
     io.hass.description="Snapcast server with Spotify connect support" \
     io.hass.type="addon" \
-    io.hass.version="0.3.0"
+    io.hass.version="0.2.1"
 
-# Set correct environment variables
-ENV LANG C.UTF-8
+# Set working directory
+WORKDIR /
 
-ENTRYPOINT ["/init"]
+# Start script
+CMD ["/usr/bin/with-contenv", "bashio"]
