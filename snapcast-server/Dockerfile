@@ -1,6 +1,11 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
+# Update package index and set repository
+RUN echo "https://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories && \
+    echo "https://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
+    apk update
+
 # Install required packages
 RUN apk add --no-cache \
     alsa-lib \
