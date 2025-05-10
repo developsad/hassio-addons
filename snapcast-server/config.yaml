@@ -2,7 +2,7 @@ name: "Snapcast Server"
 version: "0.3.0"
 slug: "snapcast_server"
 description: "Snapcast server with Spotify connect support"
-url: "https://github.com/yourusername/hassio-addons/tree/master/snapcast"
+url: "https://github.com/developsad/hassio-addons/tree/master/snapcast"
 arch:
   - aarch64
   - amd64
